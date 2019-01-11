@@ -7,8 +7,7 @@
     <com.zhou.banner.BannerViewPager
         android:id="@+id/banner_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorRed" />
+        android:layout_height="match_parent"/>
 
     <LinearLayout
         android:layout_width="match_parent"

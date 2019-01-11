@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,17 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 
 public class Banner extends FrameLayout {
     private List<String> imageUrls = new ArrayList<>();
 
     private BannerViewPager bannerViewPager;
     private BannerAdapter adapter;
+    private boolean isAuto = true;
+    private int count;//图片数量
+    private int currentItem;
+    private WeakHandler weakHandler = new WeakHandler();
 
     public Banner(@NonNull Context context) {
         super(context);
@@ -47,10 +53,10 @@ public class Banner extends FrameLayout {
 
             @Override
             public void onPageScrollStateChanged(int i) {
-                if (i == ViewPager.SCROLL_STATE_IDLE || i == ViewPager.SCROLL_STATE_DRAGGING) {
+                if (i == ViewPager.SCROLL_STATE_IDLE || i == ViewPager.SCROLL_STATE_DRAGGING) {//头
                     if (bannerViewPager.getCurrentItem() == 0) {
                         bannerViewPager.setCurrentItem(imageUrls.size() - 2, false);
-                    } else if (bannerViewPager.getCurrentItem() == imageUrls.size() - 1) {
+                    } else if (bannerViewPager.getCurrentItem() == imageUrls.size() - 1) {//尾
                         bannerViewPager.setCurrentItem(1, false);
                     }
                 }
@@ -85,6 +91,7 @@ public class Banner extends FrameLayout {
                 imageLoaderInterface.displayImage(container.getContext(), imageUrls.get(position), imageView);
             }
             container.addView(view);
+
             return view;
         }
     }
@@ -103,6 +110,7 @@ public class Banner extends FrameLayout {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        count = urls.size();
         imageUrls.add(urls.get(urls.size() - 1));
         imageUrls.addAll(urls);
         imageUrls.add(urls.get(0));
@@ -112,8 +120,41 @@ public class Banner extends FrameLayout {
     public Banner start() {
         adapter = new BannerAdapter();
         bannerViewPager.setAdapter(adapter);
+        startAutoPlay();
         return this;
     }
+
+    public void startAutoPlay() {
+        Log.d(TAG, "startAutoPlay: 开始自动轮播");
+        weakHandler.postDelayed(autoPlayRunnable, 4000);
+    }
+
+    public void stopAutoPlay() {
+        weakHandler.removeCallbacks(autoPlayRunnable);
+    }
+
+    private static final String TAG = "Banner";
+    private Runnable autoPlayRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (isAuto && count > 1) {
+//                currentItem = currentItem % (count);
+//                if (currentItem == 0) {
+//                    bannerViewPager.setCurrentItem(currentItem, false);
+////                    bannerViewPager.post(autoPlayRunnable);
+//                } else if (currentItem == count ) {
+////                    bannerViewPager.post(autoPlayRunnable);
+//                    bannerViewPager.setCurrentItem(currentItem, false);
+//                } else {
+//                    bannerViewPager.setCurrentItem(currentItem);
+//                }
+//                bannerViewPager.postDelayed(autoPlayRunnable, 4000);
+//                currentItem++;
+                bannerViewPager.setCurrentItem(bannerViewPager.getCurrentItem() + 1);
+                bannerViewPager.postDelayed(autoPlayRunnable, 4000);
+            }
+        }
+    };
 
     public Banner setData(String[] urls) {
         if (urls == null || urls.length == 0)
@@ -122,6 +163,7 @@ public class Banner extends FrameLayout {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        count = urls.length;
         imageUrls.add(urls[urls.length - 1]);
         for (String url : urls) {
             imageUrls.add(url);
