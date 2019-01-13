@@ -29,7 +29,6 @@ public class Banner extends FrameLayout {
     private BannerDTO bannerDTO;
     private BannerViewPager bannerViewPager;
     private TextView bannerTitleTV;
-    private LinearLayout bannerIndicatorLL;
     private List<DotView> dotViews = new ArrayList<>();
     private BannerAdapter adapter;
     private boolean isAuto = false;
@@ -51,7 +50,6 @@ public class Banner extends FrameLayout {
         bannerViewPager = view.findViewById(R.id.banner_viewpager);
         bannerTitleTV = view.findViewById(R.id.banner_title);
         bannerTitleTV.setGravity(Gravity.LEFT);
-        bannerIndicatorLL = view.findViewById(R.id.banner_indicator_layout);
         bannerViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
@@ -200,15 +198,7 @@ public class Banner extends FrameLayout {
             setData(bannerDTO.images, imageUrls);
             setData(bannerDTO.titles, titles);
 
-//            bannerIndicatorLL.removeAllViews();
-//            for (int i = 0; i < imageUrls.size(); i++) {
-//                DotView dotView = new DotView(getContext());
-//                if (i == 0) {
-//                    dotView.setColor(R.color.colorWhite);
-//                } else dotView.setColor(R.color.titleBackground);
-//                dotViews.add(dotView);
-//                bannerIndicatorLL.addView(dotView);
-//            }
+
         } else {
             throw new NullPointerException("BannerDTO");
         }

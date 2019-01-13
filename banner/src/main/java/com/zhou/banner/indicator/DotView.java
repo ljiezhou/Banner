@@ -12,7 +12,7 @@ import com.zhou.banner.R;
 public class DotView extends View {
     private Paint paint;
 
-    private void init() {
+    private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         paint = new Paint();
         paint.setColor(ContextCompat.getColor(getContext(), R.color.colorBlack));
         paint.setDither(true);
@@ -21,18 +21,16 @@ public class DotView extends View {
     }
 
     public DotView(Context context) {
-        super(context);
-        init();
+        this(context, null, 0);
     }
 
     public DotView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
+        this(context, attrs, 0);
     }
 
     public DotView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context, attrs, defStyleAttr);
     }
 
     public void setColor(int color) {
