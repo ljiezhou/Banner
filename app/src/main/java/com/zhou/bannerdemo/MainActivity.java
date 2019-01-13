@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.zhou.banner.Banner;
+import com.zhou.banner.BannerDTO;
 
 import java.util.List;
 
@@ -39,7 +40,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         banner = findViewById(R.id.banner);
-        banner.setData(urls)
+        BannerDTO bannerDTO = new BannerDTO();
+//        bannerDTO.images
+        bannerDTO.setImages(urls);
+        bannerDTO.setTitles(titles);
+        banner.setData(bannerDTO)
                 .setImageLoader(new GlideImageLoader())
                 .start();
     }

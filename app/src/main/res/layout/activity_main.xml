@@ -11,4 +11,9 @@
         android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <com.zhou.banner.indicator.DotView
+        app:layout_constraintTop_toBottomOf="@id/banner"
+        android:layout_width="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_height="20dp" />
 </android.support.constraint.ConstraintLayout>
